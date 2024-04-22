@@ -1,4 +1,5 @@
 import { getMyActivities } from '@/services/supabase/actions/professors'
+import { v4 } from '@/utils/uuid'
 import Link from 'next/link'
 
 export const DisplayActivities = async ({ params, searchParams }) => {
@@ -10,8 +11,6 @@ export const DisplayActivities = async ({ params, searchParams }) => {
     semesterId: searchParams?.semesterId
   })
 
-  console.log(activities)
-
   return (
     <section className='grid grid-cols-2 grid-flow-row h-full w-full gap-10 px-20 '>
       {activities?.map(activity => {
@@ -19,7 +18,10 @@ export const DisplayActivities = async ({ params, searchParams }) => {
         newSearchParams.set('activityId', activity.id)
 
         return (
-          <Link href={`/professor/career/${params?.slug}/${params?.subjectslug ?? ''}/gradeactivity?${newSearchParams.toString()}`} key={activity.id}>
+          <Link
+            key={v4()}
+            href={`/professor/career/${params?.slug}/${params?.subjectslug ?? ''}/activities/${activity.id}?${newSearchParams.toString()}`}
+          >
             <article className='gap-5 flex flex-row h-[10rem] w-[30rem]'>
               <img src={activity?.type === 'trivia' ? '/trivia.png' : activity?.type === 'exam' ? '/examen.png' : activity?.type === 'questionary' ? '/cuestionario.png' : '/actividad.png'} alt='activity' className='h-[4rem]' />
               <div className='bg-[#ccccca] flex w-full h-full flex-col text-start gap-5 rounded-lg p-3'>
