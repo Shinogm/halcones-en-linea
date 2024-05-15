@@ -1,37 +1,50 @@
-import { H1, Main, RedirectPlus, ShyScrollbar } from '@/components/utils'
+import { Main, ShyScrollbar } from '@/components/utils'
 import { getSubjects } from '@/services/supabase/actions/subjects'
 import { v4 } from '@/utils/uuid'
+import { DisplaySubject } from './components/section'
 
 export default async function SubjectsPage () {
   const subjects = await getSubjects()
 
   return (
     <Main>
-      <header
-        className='flex items-center justify-between mb-4'
-      >
-        <H1
-          className='mb-0 text-white'
-        >
-          Materias
-        </H1>
 
-        <RedirectPlus href='/admin/subjects/new' />
-      </header>
+      <section className='w-full py-12 md:py-24 lg:py-32 overflow-y-auto' style={ShyScrollbar}>
+        <div className='container px-4 md:px-6'>
+          <div className='space-y-4 md:space-y-6'>
+            <div className='space-y-3'>
+              <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white text-center'>
+                Explora Nuestras Materias
+              </h2>
+              <p className='mx-auto max-w-[700px] text-white/60 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed text-center'>
+                Descubre una amplia gama de materias que te ayudarán a alcanzar tus metas académicas.
+              </p>
+            </div>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
 
-      <ul
-        className='flex-1 overflow-y-auto'
-        style={ShyScrollbar}
-      >
-        {subjects.map((subject, i) => (
-          <li
-            key={v4()}
-            className='text-lg font-medium text-white capitalize'
-          >
-            {i + 1}- {subject.name}
-          </li>
-        ))}
-      </ul>
+              {subjects.length > 0
+                ? (
+                  <>
+                    {subjects.map((subject, i) => (
+                      <DisplaySubject
+                        key={v4()}
+                        title={subject.name}
+                        description='Explora los conceptos fundamentales y avanzados de las materias.'
+                        svg={i}
+                      />
+
+                    ))}
+                  </>
+                  )
+                : (
+                  <div className='text-white text-center'>
+                    No hay materias disponibles.
+                  </div>
+                  )}
+            </div>
+          </div>
+        </div>
+      </section>
     </Main>
   )
 }
