@@ -17,7 +17,7 @@ export default async function SubjectsPage () {
                 Explora Nuestras Materias
               </h2>
               <RedirectPlus
-                className='absolute right-6 py-5 px-5 animate-fade-in' href='/admin/subjects/new'
+                className='absolute right-6 py-3 px-3 animate-fade-in' href='/admin/subjects/new'
               />
               <p className='mx-auto max-w-[700px] text-white/60 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed text-center'>
                 Descubre una amplia gama de materias que te ayudarán a alcanzar tus metas académicas.
