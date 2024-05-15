@@ -207,6 +207,42 @@ export type Database = {
           },
         ]
       }
+      coordinator_careers: {
+        Row: {
+          career: number
+          coordinator: string
+          created_at: string
+          id: number
+        }
+        Insert: {
+          career: number
+          coordinator: string
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          career?: number
+          coordinator?: string
+          created_at?: string
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coordinator_careers_career_fkey"
+            columns: ["career"]
+            isOneToOne: false
+            referencedRelation: "careers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coordinator_careers_coordinator_fkey"
+            columns: ["coordinator"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       education_plans: {
         Row: {
           career: number
