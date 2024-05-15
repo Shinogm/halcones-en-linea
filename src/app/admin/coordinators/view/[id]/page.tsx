@@ -20,7 +20,7 @@ export default async function ViewCoordinatorPage ({ params }: Props) {
           </H1>
         </Link>
 
-        <RedirectPlus href={`/admin/coordinator/edit/${coordinator.id}/add-career`} />
+        <RedirectPlus href={`/admin/coordinators/view/${params.id}/add-career`} />
       </header>
     </Main>
   )
