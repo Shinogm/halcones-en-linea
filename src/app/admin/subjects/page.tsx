@@ -1,4 +1,4 @@
-import { Main, ShyScrollbar } from '@/components/utils'
+import { Main, RedirectPlus, ShyScrollbar } from '@/components/utils'
 import { getSubjects } from '@/services/supabase/actions/subjects'
 import { v4 } from '@/utils/uuid'
 import { DisplaySubject } from './components/section'
@@ -9,17 +9,20 @@ export default async function SubjectsPage () {
   return (
     <Main>
 
-      <section className='w-full py-12 md:py-24 lg:py-32 overflow-y-auto' style={ShyScrollbar}>
-        <div className='container px-4 md:px-6'>
+      <section className='w-full py-16 overflow-y-auto' style={ShyScrollbar}>
+        <div className='relative container px-4 md:px-6'>
           <div className='space-y-4 md:space-y-6'>
-            <div className='space-y-3'>
+            <header className='space-y-3'>
               <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white text-center'>
                 Explora Nuestras Materias
               </h2>
+              <RedirectPlus
+                className='absolute right-6 py-5 px-5 animate-fade-in' href='/admin/subjects/new'
+              />
               <p className='mx-auto max-w-[700px] text-white/60 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed text-center'>
                 Descubre una amplia gama de materias que te ayudarán a alcanzar tus metas académicas.
               </p>
-            </div>
+            </header>
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
 
               {subjects.length > 0
