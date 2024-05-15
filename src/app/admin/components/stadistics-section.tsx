@@ -1,9 +1,24 @@
-'use client'
 
 import React from 'react'
 import { StatsCard } from './stats-card'
+import { createClient } from '@/services/supabase/actions'
+import { USER_TYPES } from '@/services/supabase/functions/types'
 
-export const StadisticsSection = () => {
+export const StadisticsSection = async () => {
+  const supabase = await createClient()
+
+  const { data: students } = await supabase.from('user_data').select('id').eq('role', USER_TYPES.STUDENT)
+  const studentsCount = students?.length ?? 0
+
+  const { data: teachers } = await supabase.from('user_data').select('id').eq('role', USER_TYPES.PROFESSOR)
+  const teachersCount = teachers?.length ?? 0
+
+  const { data: subjects } = await supabase.from('subjects').select('*')
+  const subjectsCount = subjects?.length ?? 0
+
+  const { data: groups } = await supabase.from('groups').select('*')
+  const groupsCount = groups?.length ?? 0
+
   return (
     <>
       <header className='space-y-2'>
@@ -14,36 +29,13 @@ export const StadisticsSection = () => {
           Explore our comprehensive statistics on our online className offerings.
         </p>
       </header>
-
       <section className='w-full py-12 md:py-24 lg:py-32 '>
         <div className='container grid gap-6 px-4 md:px-6 bg-white rounded-xl'>
-
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'>
-            <div className='rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col' data-v0-t='card'>
-              <div className='flex flex-col items-center justify-center gap-2 p-6'>
-                <div className='text-6xl font-bold text-[#1a63a5]'>12,345</div>
-                <div className='text-lg font-medium text-[#131a2e]'>Students</div>
-              </div>
-            </div>
-            <div className='rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col' data-v0-t='card'>
-              <div className='flex flex-col items-center justify-center gap-2 p-6'>
-                <div className='text-6xl font-bold text-[#1a63a5]'>345</div>
-                <div className='text-lg font-medium text-[#131a2e]'>Subjects</div>
-              </div>
-            </div>
-            <StatsCard title='Groups' value={78} />
-            <div className='rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col' data-v0-t='card'>
-              <div className='flex flex-col items-center justify-center gap-2 p-6'>
-                <div className='text-6xl font-bold text-[#1a63a5]'>78</div>
-                <div className='text-lg font-medium text-[#131a2e]'>Groups</div>
-              </div>
-            </div>
-            <div className='rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col' data-v0-t='card'>
-              <div className='flex flex-col items-center justify-center gap-2 p-6'>
-                <div className='text-6xl font-bold text-[#1a63a5]'>125</div>
-                <div className='text-lg font-medium text-[#131a2e]'>Teachers</div>
-              </div>
-            </div>
+            <StatsCard title='Students' value={studentsCount} />
+            <StatsCard title='Subjects' value={subjectsCount} />
+            <StatsCard title='Groups' value={groupsCount} />
+            <StatsCard title='Teachers' value={teachersCount} />
           </div>
         </div>
       </section>
