@@ -17,7 +17,7 @@ interface RedirectProps extends LinkProps {
 
 export const RedirectPlus = ({ className, ...props }: RedirectProps) => (
   <Link
-    className={`p-1 bg-blue-500 rounded-md cursor-pointer hover:bg-blue-600 transition-colors duration-300 ease-in-out ${className ?? ''}`}
+    className={`flex w-fit p-1 bg-blue-500 rounded-md cursor-pointer hover:bg-blue-600 transition-colors duration-300 ease-in-out ${className ?? ''}`}
     {...props}
   >
     <IconPlus color='#fff' />
