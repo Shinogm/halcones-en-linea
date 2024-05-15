@@ -1,6 +1,3 @@
-'use client'
-
-import { motion } from 'framer-motion'
 
 interface SectionProps {
   title: string
@@ -10,24 +7,17 @@ interface SectionProps {
 
 export const DisplaySubject = ({ title, description, svg }: SectionProps) => {
   return (
-    <motion.section
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      whileHover={{ scale: 1.05, rotate: 1 }}
-      className='relative group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-transform cursor-pointer'
+    <section
+      className='relative group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all cursor-pointer hover:scale-105 hover:rotate-1 duration-300 ease-in-out animate-fade-in animate-duration-150'
 
     >
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
+      <div
         className='flex flex-col items-center justify-center h-full bg-[#1a63a5] p-6 text-white'
       >
         {
-          svg === 1
+          svg % 2 === 0
             ? (
-              <motion.svg
+              <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='24'
                 height='24'
@@ -37,15 +27,13 @@ export const DisplaySubject = ({ title, description, svg }: SectionProps) => {
                 strokeWidth='2'
                 strokeLinecap='round'
                 strokeLinejoin='round'
-                className='w-12 h-12 mb-4 fill-[#cdcccb]'
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
+                className='w-12 h-12 mb-4 fill-[#cdcccb] animate-fade-in-up animate-duration-[550ms]'
               >
                 <path d='M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20' />
-              </motion.svg>
+              </svg>
               )
             : (
-              <motion.svg
+              <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='24'
                 height='24'
@@ -55,30 +43,24 @@ export const DisplaySubject = ({ title, description, svg }: SectionProps) => {
                 strokeWidth='2'
                 strokeLinecap='round'
                 strokeLinejoin='round'
-                className='w-12 h-12 mb-4 fill-[#cdcccb]'
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
+                className='w-12 h-12 mb-4 fill-[#cdcccb] animate-fade-in-up animate-duration-[550ms]'
               >
                 <path d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z' />
                 <path d='m15 5 4 4' />
-              </motion.svg>
+              </svg>
               )
         }
-        <motion.h3
-          className='font-bold text-xl'
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+        <h3
+          className='font-bold text-xl animate-fade-in-up animate-duration-[550ms]'
         >
           {title}
-        </motion.h3>
-        <motion.p
-          className='text-sm text-[#cdcccb] mt-2'
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+        </h3>
+        <p
+          className='text-sm text-[#cdcccb] mt-2 animate-fade-in-up animate-duration-[550ms]'
         >
           {description}
-        </motion.p>
-      </motion.div>
-    </motion.section>
+        </p>
+      </div>
+    </section>
   )
 }
