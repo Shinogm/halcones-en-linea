@@ -6,8 +6,6 @@ import { DisplaySubject } from './components/section'
 export default async function SubjectsPage () {
   const subjects = await getSubjects()
 
-  const randomNumber = Math.floor(Math.random() * 2) + 1
-
   return (
     <Main>
 
@@ -27,12 +25,12 @@ export default async function SubjectsPage () {
               {subjects.length > 0
                 ? (
                   <>
-                    {subjects.map((subject) => (
+                    {subjects.map((subject, i) => (
                       <DisplaySubject
                         key={v4()}
                         title={subject.name}
                         description='Explora los conceptos fundamentales y avanzados de las materias.'
-                        svg={randomNumber}
+                        svg={i}
                       />
 
                     ))}
