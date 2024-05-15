@@ -2,19 +2,6 @@ import { SideBarOptions } from '@/components/sidebar/types'
 
 export const staticRoutes: SideBarOptions = [
   {
-    title: 'Alumnos',
-    sub: [
-      {
-        href: '/admin/students',
-        title: 'Lista de alumnos'
-      },
-      {
-        href: '/admin/students/new',
-        title: 'Nuevo alumno'
-      }
-    ]
-  },
-  {
     title: 'Carreras',
     sub: [
       {
@@ -41,19 +28,6 @@ export const staticRoutes: SideBarOptions = [
     ]
   },
   {
-    title: 'Profesores',
-    sub: [
-      {
-        href: '/admin/professor',
-        title: 'Lista de profesores'
-      },
-      {
-        href: '/admin/professor/new',
-        title: 'Nuevo profesor'
-      }
-    ]
-  },
-  {
     title: 'Planes de estudio',
     sub: [
       {
@@ -76,6 +50,32 @@ export const staticRoutes: SideBarOptions = [
       {
         href: '/admin/groups/new',
         title: 'Nuevo grupo'
+      }
+    ]
+  },
+  {
+    title: 'Alumnos',
+    sub: [
+      {
+        href: '/admin/students',
+        title: 'Lista de alumnos'
+      },
+      {
+        href: '/admin/students/new',
+        title: 'Nuevo alumno'
+      }
+    ]
+  },
+  {
+    title: 'Profesores',
+    sub: [
+      {
+        href: '/admin/professor',
+        title: 'Lista de profesores'
+      },
+      {
+        href: '/admin/professor/new',
+        title: 'Nuevo profesor'
       }
     ]
   }
