@@ -12,7 +12,7 @@ interface Props {
   role: USER_TYPES
   redirect?: string
   defaultValues?: Account
-  from: 'students' | 'professor'
+  from: 'students' | 'professor' | 'coordinators'
 }
 
 export const RegisterForm = ({ role, redirect, defaultValues, from }: Props) => {

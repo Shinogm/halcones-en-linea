@@ -5,7 +5,7 @@ import { createClient } from '../../actions'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-export const updateAccountInfo = async (data: FormData, from: 'students' | 'professor') => {
+export const updateAccountInfo = async (data: FormData, from: 'students' | 'professor' | 'coordinators') => {
   const supabase = await createClient()
 
   const convertToString = (val: any) => z.string({

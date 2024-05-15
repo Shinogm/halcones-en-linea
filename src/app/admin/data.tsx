@@ -78,5 +78,18 @@ export const staticRoutes: SideBarOptions = [
         title: 'Nuevo profesor'
       }
     ]
+  },
+  {
+    title: 'Coordinadores',
+    sub: [
+      {
+        href: '/admin/coordinators',
+        title: 'Lista de coordinadores'
+      },
+      {
+        href: '/admin/coordinators/new',
+        title: 'Nuevo coordinador'
+      }
+    ]
   }
 ]
