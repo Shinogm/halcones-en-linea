@@ -14,6 +14,17 @@ export const getAllCoordinators = async () => {
   return data
 }
 
-export const getCoordinatorCareers = async () => {
+export const getCoordinatorCareers = async (id: string) => {
+  const supabase = await createClient()
 
+  const { data, error } = await supabase.from('coordinator_careers').select('careers(id, name)').eq('coordinator', id)
+
+  if (error != null) {
+    console.error('Error getting coordinator careers:', error)
+    throw new Error('Error getting coordinator careers')
+  }
+
+  const careers = data.map((career) => career.careers).filter((career) => career != null)
+
+  return careers
 }
