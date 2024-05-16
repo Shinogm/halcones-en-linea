@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, HeaderBetween, TableContainer, Table, THeadSticky, Tr, ThWhite, TdWhite } from '@/components/utils'
+import { H1, Main, RedirectPlus, HeaderBetween, TableContainer, Table, THeadSticky, Tr, ThWhite, TdWhite, Tr2, TBody } from '@/components/utils'
 import { getStudents } from '@/services/supabase/actions/students'
 import { v4 } from '@/utils/uuid'
 import { IconEdit } from '@tabler/icons-react'
@@ -23,14 +23,14 @@ export default async function StudentsPage () {
       <TableContainer>
         <Table>
           <THeadSticky>
-            <tr>
+            <Tr2>
               <ThWhite>Nombre</ThWhite>
               <ThWhite>Correo</ThWhite>
               <ThWhite>Telefono</ThWhite>
               <ThWhite>Acciones</ThWhite>
-            </tr>
+            </Tr2>
           </THeadSticky>
-          <tbody>
+          <TBody>
             {students.map((student) => (
               <Tr
                 key={v4()}
@@ -58,7 +58,7 @@ export default async function StudentsPage () {
                 </TdWhite>
               </Tr>
             ))}
-          </tbody>
+          </TBody>
         </Table>
       </TableContainer>
 

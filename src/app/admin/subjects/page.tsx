@@ -1,37 +1,53 @@
-import { H1, Main, RedirectPlus, ShyScrollbar } from '@/components/utils'
+import { Main, RedirectPlus, ShyScrollbar } from '@/components/utils'
 import { getSubjects } from '@/services/supabase/actions/subjects'
 import { v4 } from '@/utils/uuid'
+import { DisplaySubject } from './components/section'
 
 export default async function SubjectsPage () {
   const subjects = await getSubjects()
 
   return (
     <Main>
-      <header
-        className='flex items-center justify-between mb-4'
-      >
-        <H1
-          className='mb-0 text-white'
-        >
-          Materias
-        </H1>
 
-        <RedirectPlus href='/admin/subjects/new' />
-      </header>
+      <section className='w-full py-16 overflow-y-auto' style={ShyScrollbar}>
+        <div className='relative container px-4 md:px-6'>
+          <div className='space-y-4 md:space-y-6'>
+            <header className='space-y-3'>
+              <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white text-center'>
+                Materias
+              </h2>
+              <RedirectPlus
+                className='absolute right-6 py-3 px-3 animate-fade-in' href='/admin/subjects/new'
+              />
+              <p className='mx-auto max-w-[700px] text-white/60 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed text-center'>
+                Administra, edita y crea nuevas materias para los estudiantes.
+              </p>
+            </header>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
 
-      <ul
-        className='flex-1 overflow-y-auto'
-        style={ShyScrollbar}
-      >
-        {subjects.map((subject, i) => (
-          <li
-            key={v4()}
-            className='text-lg font-medium text-white capitalize'
-          >
-            {i + 1}- {subject.name}
-          </li>
-        ))}
-      </ul>
+              {subjects.length > 0
+                ? (
+                  <>
+                    {subjects.map((subject, i) => (
+                      <DisplaySubject
+                        key={v4()}
+                        title={subject.name}
+                        description='Explora los conceptos fundamentales y avanzados de las materias.'
+                        svg={i}
+                      />
+
+                    ))}
+                  </>
+                  )
+                : (
+                  <div className='text-white text-center'>
+                    No hay materias disponibles.
+                  </div>
+                  )}
+            </div>
+          </div>
+        </div>
+      </section>
     </Main>
   )
 }
