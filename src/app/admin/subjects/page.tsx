@@ -14,10 +14,10 @@ export default async function SubjectsPage () {
           <div className='space-y-4 md:space-y-6'>
             <div className='space-y-3'>
               <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white text-center'>
-                Explora Nuestras Materias
+                Materias
               </h2>
               <p className='mx-auto max-w-[700px] text-white/60 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed text-center'>
-                Descubre una amplia gama de materias que te ayudarán a alcanzar tus metas académicas.
+                Administra, edita y crea nuevas materias para los estudiantes.
               </p>
             </div>
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
