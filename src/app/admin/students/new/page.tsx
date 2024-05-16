@@ -16,9 +16,11 @@ export default async function NewStudentsPage ({ params }: Props) {
 
   return (
     <Main>
-      <H1 className='text-white'>{editMode ? 'Editar alumno' : 'Crear nuevo alumno'}</H1>
-
       <FormSection>
+        <div className='flex flex-col items-center justify-center'>
+          <H1 className='text-white'>{editMode ? 'Editar Alumno' : 'Crear Alumno'}</H1>
+          <a className='text-white'>Ingresa los datos del nuevo alumno</a>
+        </div>
         <RegisterForm from='students' defaultValues={student ?? undefined} role={USER_TYPES.STUDENT} />
       </FormSection>
 

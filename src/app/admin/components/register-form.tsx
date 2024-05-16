@@ -62,7 +62,7 @@ export const RegisterForm = ({ role, redirect, defaultValues, from }: Props) => 
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form className='flex flex-col h-full gap-2 p-3 .' onSubmit={handleSubmit}>
       {
         defaultValues != null && (
           <input
@@ -124,7 +124,7 @@ export const RegisterForm = ({ role, redirect, defaultValues, from }: Props) => 
         )
       }
 
-      <SubmitButton>
+      <SubmitButton className='bg-white text-[#1a63a5] hover:bg-[#cdcccb] focus:ring-white rounded py-2'>
         {
           defaultValues == null ? 'Registrar' : 'Actualizar'
         }
