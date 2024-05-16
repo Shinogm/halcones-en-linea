@@ -3,7 +3,7 @@ import Link, { LinkProps } from 'next/link'
 
 export const SubmitButton = ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button
-    className='bg-primary rounded-md text-white px-1 mt-4 shadow-lg bg-itesus-primary w-full py-1 hover:bg-itesus-secondary transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-itesus-secondary focus:border-transparent'
+    className='p-2 gap-3 bg-primary rounded-md text-white px-1 mt-4 shadow-lg bg-itesus-primary w-full py-1 hover:bg-itesus-secondary transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-itesus-secondary focus:border-transparent'
     type='submit'
     {...props}
   >

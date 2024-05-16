@@ -16,11 +16,14 @@ export default async function NewCoordinatorPage ({ params }: Props) {
 
   return (
     <Main>
-      <H1 className='text-white'>
-        {editMode != null ? 'Editar coordinador' : 'Crear nuevo coordinador'}
-      </H1>
 
       <FormSection>
+        <div className='flex flex-col items-center justify-center'>
+          <H1 className='text-white'>
+            {editMode ? 'Editar coordinador' : 'Crear nuevo coordinador'}
+          </H1>
+          <a className='text-white'>Ingresa los datos del nuevo coordinador</a>
+        </div>
         <RegisterForm
           defaultValues={coordinator ?? undefined}
           from='coordinators' role={USER_TYPES.COORDINATOR}

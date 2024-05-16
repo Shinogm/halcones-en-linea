@@ -16,11 +16,14 @@ export default async function NewProfessorPage ({ params }: Props) {
 
   return (
     <Main>
-      <H1 className='text-white'>
-        {editMode != null ? 'Editar profesor' : 'Crear nuevo profesor'}
-      </H1>
 
       <FormSection>
+        <div className='flex flex-col items-center justify-centers'>
+          <H1 className='text-white '>
+            {editMode ? 'Editar profesor' : 'Crear nuevo profesor'}
+          </H1>
+          <a className='text-white'>Ingresa los datos del nuevo profesor</a>
+        </div>
         <RegisterForm
           defaultValues={professor ?? undefined}
           from='professor' role={USER_TYPES.PROFESSOR}
