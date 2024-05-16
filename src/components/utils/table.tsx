@@ -10,7 +10,7 @@ export const Th = ({ children, className, ...props }: React.HTMLAttributes<HTMLT
   </th>
 )
 
-export const ThWhite = ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => <Th {...props} className={`text-white ${className ?? ''}`} />
+export const ThWhite = ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => <Th {...props} className={`text-centerpx-4 py-3 font-mediu ${className ?? ''}`} />
 
 // Before has a text-white class
 export const Td = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
@@ -21,11 +21,11 @@ export const Td = ({ children, className, ...props }: React.HTMLAttributes<HTMLT
     {children}
   </td>
 )
-export const TdWhite = ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => <Td {...props} className={`text-white ${className ?? ''}`} />
+export const TdWhite = ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => <Td {...props} className={`px-4 py-3 ${className ?? ''}`} />
 
 export const TableContainer = ({ children, className, ...props }: React.HTMLAttributes<HTMLElement>) => (
   <div
-    className={`relative overflow-y-auto flex-1 ${className ?? ''}`}
+    className={`relative overflow-y-auto flex-1 text-center ${className ?? ''}`}
     {...props}
   >
     {children}
@@ -34,7 +34,7 @@ export const TableContainer = ({ children, className, ...props }: React.HTMLAttr
 
 export const Table = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
   <table
-    className={`w-full ${className ?? ''}`}
+    className={`w-full table-auto shadow-2xl animate-fade-in-up ${className ?? ''}`}
     {...props}
   >
     {children}
@@ -52,9 +52,27 @@ export const THeadSticky = ({ children, className, ...props }: React.HTMLAttribu
 
 export const Tr = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
   <tr
-    className={`border-b border-b-itesus-tertiary ${className ?? ''}`}
+    className={`border-b border-[#cdcccb]/20 ${className ?? ''}`}
     {...props}
   >
     {children}
   </tr>
+)
+
+export const Tr2 = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
+  <tr
+    className={`bg-[#1a63a5] text-[#cdcccb] ${className ?? ''}`}
+    {...props}
+  >
+    {children}
+  </tr>
+)
+
+export const TBody = ({ children, className, ...props }: React.HTMLAttributes<HTMLElement>) => (
+  <tbody
+    className={`divide-y divide-[#cdcccb]/20 divide-solid bg-[#1a63a5]/50 text-[#cdcccb] ${className ?? ''}`}
+    {...props}
+  >
+    {children}
+  </tbody>
 )

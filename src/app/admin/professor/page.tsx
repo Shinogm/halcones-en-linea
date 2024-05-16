@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, TdWhite, ThWhite, Tr } from '@/components/utils'
+import { H1, Main, RedirectPlus, TBody, THeadSticky, Table, TableContainer, TdWhite, ThWhite, Tr, Tr2 } from '@/components/utils'
 import { getProfessors } from '@/services/supabase/actions/professors'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
@@ -19,14 +19,14 @@ export default async function ProfessorPage () {
       <TableContainer>
         <Table>
           <THeadSticky>
-            <tr>
+            <Tr2>
               <ThWhite>Nombre</ThWhite>
               <ThWhite>Correo</ThWhite>
               <ThWhite>Fecha de creacion</ThWhite>
               <ThWhite>Acciones</ThWhite>
-            </tr>
+            </Tr2>
           </THeadSticky>
-          <tbody>
+          <TBody>
             {professors.map((professor) => (
               <Tr key={v4()}>
                 <TdWhite className='capitalize'>{professor.first_name} {professor.last_name}</TdWhite>
@@ -44,7 +44,7 @@ export default async function ProfessorPage () {
                 </TdWhite>
               </Tr>
             ))}
-          </tbody>
+          </TBody>
         </Table>
       </TableContainer>
 

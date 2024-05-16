@@ -1,4 +1,4 @@
-import { TableContainer, Table, THeadSticky, Tr, TdWhite, ThWhite } from '@/components/utils'
+import { TableContainer, Table, THeadSticky, TdWhite, ThWhite, Tr2, TBody, Tr } from '@/components/utils'
 import { getGroupsByCareer } from '@/services/supabase/actions/groups'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
@@ -16,19 +16,19 @@ export async function TableGroups ({ careerId }: Props) {
     <TableContainer>
       <Table>
         <THeadSticky>
-          <tr>
+          <Tr2>
             <ThWhite>Grupo</ThWhite>
             <ThWhite>Fecha de creacion</ThWhite>
             <ThWhite>Acciones</ThWhite>
-          </tr>
+          </Tr2>
         </THeadSticky>
 
-        <tbody>
+        <TBody>
           {groups.map(group => (
             <Tr key={v4()}>
               <TdWhite>{group.name}</TdWhite>
               <TdWhite>{dateFormatter(new Date(group.created_at), 'es-MX')}</TdWhite>
-              <TdWhite className='py-1'>
+              <TdWhite>
                 <div className='flex justify-center items-center'>
                   <Link
                     href={`/admin/groups/edit/${group.id}`}
@@ -42,7 +42,7 @@ export async function TableGroups ({ careerId }: Props) {
               </TdWhite>
             </Tr>
           ))}
-        </tbody>
+        </TBody>
       </Table>
     </TableContainer>
   )

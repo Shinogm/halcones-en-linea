@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, TdWhite, ThWhite, Tr } from '@/components/utils'
+import { H1, Main, RedirectPlus, TBody, THeadSticky, Table, TableContainer, TdWhite, ThWhite, Tr, Tr2 } from '@/components/utils'
 import { getEducationPlans } from '@/services/supabase/actions/admin/education-plan'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
@@ -10,6 +10,7 @@ export default async function EducationPlansPage () {
 
   return (
     <Main>
+
       <div
         className='flex items-center justify-between mb-4'
       >
@@ -25,15 +26,15 @@ export default async function EducationPlansPage () {
       <TableContainer>
         <Table>
           <THeadSticky>
-            <tr>
+            <Tr2>
               <ThWhite>Nombre</ThWhite>
               <ThWhite>Carrera</ThWhite>
               <ThWhite>Semestres</ThWhite>
               <ThWhite>Fecha de creacion</ThWhite>
               <ThWhite>Acciones</ThWhite>
-            </tr>
+            </Tr2>
           </THeadSticky>
-          <tbody>
+          <TBody>
             {plans.map((plan, i) => (
               <Tr key={v4()}>
                 <TdWhite
@@ -66,7 +67,7 @@ export default async function EducationPlansPage () {
                 </TdWhite>
               </Tr>
             ))}
-          </tbody>
+          </TBody>
         </Table>
       </TableContainer>
     </Main>
