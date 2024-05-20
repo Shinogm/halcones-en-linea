@@ -73,7 +73,7 @@ export const LabeledSelect = ({ children, label, ...props }: SelectProps) => (
 
 export const Select = ({ children, ...props }: React.SelectHTMLAttributes<HTMLSelectElement>) => (
   <select
-    className='bg-white/10 text-black placeholder:text-[#cdcccb] focus:bg-white/20 '
+    className='bg-white/10   focus:bg-white/20 '
     {...props}
   >
     {children}
