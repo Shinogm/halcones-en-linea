@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, TdWhite, ThWhite, Tr } from '@/components/utils'
+import { H1, Main, RedirectPlus, TBody, THeadSticky, Table, TableContainer, TdWhite, ThWhite, Tr, Tr2 } from '@/components/utils'
 import { getAllCoordinators } from '@/services/supabase/actions/coordinators'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
@@ -19,14 +19,14 @@ export default async function CoordinatorsPage () {
       <TableContainer>
         <Table>
           <THeadSticky>
-            <tr>
+            <Tr2>
               <ThWhite>Nombre</ThWhite>
               <ThWhite>Correo</ThWhite>
               <ThWhite>Fecha de creacion</ThWhite>
               <ThWhite>Acciones</ThWhite>
-            </tr>
+            </Tr2>
           </THeadSticky>
-          <tbody>
+          <TBody>
             {coordinators.map((coordinator) => (
               <Tr key={v4()}>
                 <TdWhite className='capitalize'>{coordinator.first_name} {coordinator.last_name}</TdWhite>
@@ -44,7 +44,7 @@ export default async function CoordinatorsPage () {
                 </TdWhite>
               </Tr>
             ))}
-          </tbody>
+          </TBody>
         </Table>
       </TableContainer>
 

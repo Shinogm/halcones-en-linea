@@ -1,4 +1,4 @@
-import { H1, Main, RedirectPlus, THeadSticky, Table, TableContainer, TdWhite, ThWhite, Tr } from '@/components/utils'
+import { H1, Main, RedirectPlus, TBody, THeadSticky, Table, TableContainer, TdWhite, ThWhite, Tr, Tr2 } from '@/components/utils'
 import { getCareers } from '@/services/supabase/actions/careers'
 import { dateFormatter } from '@/utils/formatters'
 import { v4 } from '@/utils/uuid'
@@ -25,16 +25,16 @@ export default async function CareersPage () {
       <TableContainer>
         <Table>
           <THeadSticky>
-            <tr>
+            <Tr2>
               <ThWhite>Nombre</ThWhite>
               <ThWhite>RVOE</ThWhite>
               <ThWhite>Campus</ThWhite>
               <ThWhite>Fecha de creacion</ThWhite>
               <ThWhite>Acciones</ThWhite>
-            </tr>
+            </Tr2>
           </THeadSticky>
 
-          <tbody>
+          <TBody>
             {careers.map((career) => (
               <Tr
                 key={v4()}
@@ -69,7 +69,7 @@ export default async function CareersPage () {
                 </TdWhite>
               </Tr>
             ))}
-          </tbody>
+          </TBody>
         </Table>
       </TableContainer>
 
