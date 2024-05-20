@@ -6,7 +6,7 @@ export default function AdminPage ({ children }) {
     <DistroNavASide
       navbar={(
         <nav
-          className='bg-nav-bg p-2'
+          className='bg-itesus-tertiary p-2'
         >
           <img
             className='aspect-[24/9] w-28'

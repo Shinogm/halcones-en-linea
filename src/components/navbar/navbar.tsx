@@ -11,7 +11,7 @@ interface Props {
 
 export const NavBar = ({ options, user }: Props) => {
   return (
-    <nav className=' flex flex-row h-16 select-none px-5 bg-[#cdcbcc] justify-between items-center'>
+    <nav className=' flex flex-row h-16 select-none px-5 bg-itesus-tertiary justify-between items-center'>
       <Days />
       <NavOptions options={options} />
       <ProfileSettingsButton user={user} />
