@@ -13,9 +13,10 @@ interface Props {
   group?: string
   options: string[]
   id?: string
+  search?: string
 }
 
-export function MultiDragAndDrop ({ options = [], group = 'A', id = '' }: Props) {
+export function MultiDragAndDrop ({ options = [], group = 'A', id = '', search }: Props) {
   const [parent, files] = useDragAndDrop<HTMLUListElement, string>(options, {
     group,
     plugins: [
@@ -28,6 +29,12 @@ export function MultiDragAndDrop ({ options = [], group = 'A', id = '' }: Props)
       })
     ]
   })
+
+  const filterFiles = (files: string[]) => {
+    if (search == null) return files
+
+    return files.filter((file) => file.toLowerCase().includes(search.toLowerCase()))
+  }
 
   return (
     <>
@@ -44,7 +51,7 @@ export function MultiDragAndDrop ({ options = [], group = 'A', id = '' }: Props)
           ref={parent}
           className='flex min-h-16 w-full justify-start items-start flex-wrap'
         >
-          {files.map((file) => (
+          {filterFiles(files).map((file) => (
             <li
               key={v4()}
               className='px-3 h-min mr-2 mb-2 rounded-md bg-blue-500 text-white cursor-pointer'

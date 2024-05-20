@@ -10,12 +10,16 @@ interface Props {
   params: {
     id: string
   }
+  searchParams: {
+    q?: string
+  }
   isEditMode?: boolean
 }
 
-export default async function NewEducationPlan ({ params, isEditMode = false }: Props) {
+export default async function NewEducationPlan ({ params, isEditMode = false, searchParams }: Props) {
   const planEdu = isEditMode ? await getEducationPlan(params.id) : null
   const careers = !isEditMode && await getReducedCareers()
+  console.log(searchParams.q)
 
   const subjectsInPlan = (planEdu?.semesters ?? []).reduce<Array<Tables<'subjects'>>>((acc, semester) => {
     const subjects = (semester.semester_subjects ?? []).map((ss) => ss?.subjects).filter((s) => s != null) as Array<Tables<'subjects'>>
@@ -79,6 +83,7 @@ export default async function NewEducationPlan ({ params, isEditMode = false }: 
           <SemesterSection
             defaultValue={planEdu ?? undefined}
             subjects={subjects}
+            search={searchParams.q}
           />
 
           <SubmitButton>
