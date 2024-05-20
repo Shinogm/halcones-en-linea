@@ -175,6 +175,7 @@ export type Database = {
       careers: {
         Row: {
           campus: number
+          coordinator: string | null
           created_at: string
           id: number
           name: string
@@ -183,6 +184,7 @@ export type Database = {
         }
         Insert: {
           campus: number
+          coordinator?: string | null
           created_at?: string
           id?: number
           name: string
@@ -191,6 +193,7 @@ export type Database = {
         }
         Update: {
           campus?: number
+          coordinator?: string | null
           created_at?: string
           id?: number
           name?: string
@@ -198,6 +201,13 @@ export type Database = {
           slug?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "careers_coordinator_fkey"
+            columns: ["coordinator"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "public_carreras_campues_fkey"
             columns: ["campus"]

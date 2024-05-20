@@ -4,7 +4,7 @@ interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
 }
 
 export const Form = ({ children, onSubmit, action, className, ...props }: Props) => (
-  <form onSubmit={onSubmit} action={action} className={`w-full ${className ?? ''}`} {...props}>
+  <form onSubmit={onSubmit} action={action} className={`w-full gap-2 flex flex-col ${className ?? ''}`} {...props}>
     {children}
   </form>
 )

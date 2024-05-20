@@ -35,7 +35,7 @@ export default async function CoordinatorsPage () {
                 <TdWhite className='py-1'>
                   <div className='flex justify-center items-center'>
                     <Link
-                      href={`/admin/coordinators/view/${coordinator?.owner ?? ''}`}
+                      href={`/admin/coordinators/edit/${coordinator?.owner ?? ''}`}
                       className='p-1 bg-itesus-primary rounded-md cursor-pointer hover:bg-itesus-secondary transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-itesus-secondary focus:border-transparent'
                     >
                       <IconEdit size={20} />

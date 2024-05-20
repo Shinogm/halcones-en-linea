@@ -27,6 +27,19 @@ export const getReducedCareers = async () => {
   return data
 }
 
+export const getCareerById = async (id: string) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.from('careers').select('id, name, rvoe, created_at, coordinator, campus(id, name)').eq('id', id).single()
+
+  if (error != null) {
+    console.error('Error getting career:', error)
+    throw new Error('Error getting career')
+  }
+
+  return data
+}
+
 export const getCareerBySlug = async (slug: string) => {
   const supabase = await createClient()
 
