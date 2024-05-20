@@ -1,19 +1,15 @@
-import { H1, Main } from '@/components/utils'
-import { getMyReducedCareers } from '@/services/supabase/actions/professors'
-import { v4 } from '@/utils/uuid'
-import Link from 'next/link'
+import { getUser } from '@/services/supabase/actions/auth'
+import { getCoordinatorCareers } from '@/services/supabase/actions/coordinators'
 import { DistroNav } from '../layouts/distro-nav'
 import { ProfileSettingsButton } from '@/components/profile-settings/profile-settings-button'
-import { getUser } from '@/services/supabase/actions/auth'
-import { redirect } from 'next/navigation'
+import { H1, Main } from '@/components/utils'
+import Link from 'next/link'
+import { v4 } from '@/utils/uuid'
 
-export default async function ProfessorPage () {
-  const careers = await getMyReducedCareers()
-  const user = await getUser()
+export default async function CoordinatorPage () {
+  const account = await getUser()
 
-  if (careers.length === 1) {
-    redirect(`/professor/career/${careers[0]?.slug ?? ''}`)
-  }
+  const careers = await getCoordinatorCareers(account?.owner ?? '')
 
   return (
     <DistroNav
@@ -26,7 +22,7 @@ export default async function ProfessorPage () {
             src='/img/logo-itesus.png' alt='Logo de itesus'
           />
 
-          <ProfileSettingsButton user={user} />
+          <ProfileSettingsButton user={account} />
         </nav>
       }
     >
@@ -53,7 +49,7 @@ export default async function ProfessorPage () {
         >
           {careers.map((career) => (
             <Link
-              href={`/professor/career/${career?.slug ?? ''}`}
+              href={`/coordinator/${career?.slug ?? ''}`}
               key={v4()}
               className='group gap-4 transition-colors bg-[#cdcccb] rounded-lg px-4 w-full py-1 hover:bg-[#b9b9b8]'
             >

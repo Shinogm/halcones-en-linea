@@ -17,10 +17,10 @@ export const getAllCoordinators = async () => {
 export const getCoordinatorCareers = async (id: string) => {
   const supabase = await createClient()
 
-  const { data: careers, error } = await supabase.from('careers').select('id name').eq('coordinator', id)
+  const { data: careers, error } = await supabase.from('careers').select('id, name, slug').eq('coordinator', id)
 
   if (error != null) {
-    console.error('Error getting coordinator careers:', error)
+    console.log('Error getting coordinator careers:', error)
     throw new Error('Error getting coordinator careers')
   }
 
