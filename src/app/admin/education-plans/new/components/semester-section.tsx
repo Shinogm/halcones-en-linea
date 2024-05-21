@@ -13,9 +13,10 @@ import { z } from 'zod'
 interface Props {
   subjects: Array<Tables<'subjects'>>
   defaultValue?: EducationPlan
+  search?: string
 }
 
-export const SemesterSection = ({ subjects, defaultValue }: Props) => {
+export const SemesterSection = ({ subjects, defaultValue, search }: Props) => {
   const [semesters, setSemesters] = useState(defaultValue?.semesters.length ?? 1)
 
   const semesterItem = defaultValue?.semesters ?? []
@@ -60,6 +61,7 @@ export const SemesterSection = ({ subjects, defaultValue }: Props) => {
           </div>
 
           <MultiDragAndDrop
+            search={search}
             group='subjects'
             options={subjects.map((subject) => subject.name)}
           />
