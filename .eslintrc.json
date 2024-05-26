@@ -1,12 +1,12 @@
 {
-  "extends": ["./node_modules/standard/eslintrc.json", "./node_modules/ts-standard/eslintrc.json", "next/core-web-vitals"],
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "rules": {
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@next/next/no-img-element": "off",
-    "@typescript-eslint/no-misused-promises": "off",
-    "react-hooks/exhaustive-deps": "off"
-  }
+	"extends": ["next/core-web-vitals"],
+	"parserOptions": {
+		"project": "./tsconfig.json"
+	},
+	"rules": {
+		"@typescript-eslint/explicit-function-return-type": "off",
+		"@next/next/no-img-element": "off",
+		"@typescript-eslint/no-misused-promises": "off",
+		"react-hooks/exhaustive-deps": "off"
+	}
 }

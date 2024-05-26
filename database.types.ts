@@ -557,6 +557,111 @@ export type Database = {
           },
         ]
       }
+      student_multiple_options: {
+        Row: {
+          activity: number
+          created_at: string
+          id: number
+          question: number
+          response: number
+          student: string
+        }
+        Insert: {
+          activity: number
+          created_at?: string
+          id?: number
+          question: number
+          response: number
+          student: string
+        }
+        Update: {
+          activity?: number
+          created_at?: string
+          id?: number
+          question?: number
+          response?: number
+          student?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_multiple_options_activity_fkey"
+            columns: ["activity"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_multiple_options_question_fkey"
+            columns: ["question"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_multiple_options_response_fkey"
+            columns: ["response"]
+            isOneToOne: false
+            referencedRelation: "responses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_multiple_options_student_fkey"
+            columns: ["student"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_open_options: {
+        Row: {
+          activity: number
+          created_at: string
+          id: number
+          question: number
+          response: string
+          student: string
+        }
+        Insert: {
+          activity: number
+          created_at?: string
+          id?: number
+          question: number
+          response: string
+          student: string
+        }
+        Update: {
+          activity?: number
+          created_at?: string
+          id?: number
+          question?: number
+          response?: string
+          student?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_open_options_activity_fkey"
+            columns: ["activity"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_open_options_question_fkey"
+            columns: ["question"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_open_options_student_fkey"
+            columns: ["student"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       student_work: {
         Row: {
           activity: number
