@@ -61,8 +61,7 @@ export const DisplayActivity = ({
 					{description != null && (
 						<li>Instrucciones de la actividad: {description}</li>
 					)}
-					<li>Status: {status}</li>
-
+					<li>Status: <span className={status === "Entregada" ? "text-green-500" : ""}>{status}</span></li>
 					<li>
 						Calificacion:{" "}
 						{qualification != null ? qualification : "No calificada"}
