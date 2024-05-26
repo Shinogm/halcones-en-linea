@@ -202,14 +202,17 @@ const getStudentInfo = async (
   };
 };
 
-export const getMyActivities = async ({
-  careerId,
-  educationPlanId,
-  groupId,
-  semesterId,
-  subjectId,
-  studentId,
-}: GetMyActivitiesProps) => {
+export const getMyActivities = async (
+  {
+    careerId,
+    educationPlanId,
+    groupId,
+    semesterId,
+    subjectId,
+    studentId,
+  }: GetMyActivitiesProps,
+  isProfessor = false,
+) => {
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getSession();
@@ -219,7 +222,7 @@ export const getMyActivities = async ({
     throw new Error("Error getting session");
   }
 
-  const { data: activities, error: errorActivities } = await supabase
+  const { data: activities, error: errorActivities } = isProfessor ? await supabase
     .from("activities")
     .select(
       "id, name, desc, type, created_at, deadline, is_open, questions(id, question, type, created_at, responses(id, option, is_correct)), professor",
@@ -229,7 +232,17 @@ export const getMyActivities = async ({
     .eq("education_plan", educationPlanId)
     .eq("group", groupId)
     .eq("semester", semesterId)
-    .eq("subject", subjectId);
+    .eq("subject", subjectId)
+    : await supabase
+      .from("activities")
+      .select(
+        "id, name, desc, type, created_at, deadline, is_open, questions(id, question, type, created_at, responses(id, option, is_correct)), professor",
+      )
+      .eq("career", careerId)
+      .eq("education_plan", educationPlanId)
+      .eq("group", groupId)
+      .eq("semester", semesterId)
+      .eq("subject", subjectId);
 
   if (errorActivities != null) {
     console.log("Error getting activities:", errorActivities);
@@ -386,7 +399,6 @@ export const uploadWorkActivity = async (
   }
 };
 
-
 export const uploadQuestionsWorkActivity = async (formdata: FormData) => {
   const supabase = await createClient();
 
@@ -397,59 +409,70 @@ export const uploadQuestionsWorkActivity = async (formdata: FormData) => {
     throw new Error("Error getting session");
   }
 
-  const responsesData = Object.fromEntries(formdata.entries())
+  const responsesData = Object.fromEntries(formdata.entries());
 
-  const actId = z.number({ coerce: true }).parse(responsesData.actId)
+  const actId = z.number({ coerce: true }).parse(responsesData.actId);
 
   const allResponses = await Promise.all(
     Object.entries(responsesData)
-      .filter(([key, value]) => key.startsWith('response-question-'))
+      .filter(([key, value]) => key.startsWith("response-question-"))
       .map(async ([key, value]) => {
-        const questionId = z.number({
-          coerce: true,
-        }).parse(key.split('-')[2])
-
-        const { data: question } = await supabase.from('questions').select('type').eq('id', questionId).single()
-
-
-        if (question == null) return
-
-        if (question.type === 'multiple_option') {
-          const responseId = z.number({
+        const questionId = z
+          .number({
             coerce: true,
-          }).parse(value)
+          })
+          .parse(key.split("-")[2]);
+
+        const { data: question } = await supabase
+          .from("questions")
+          .select("type")
+          .eq("id", questionId)
+          .single();
+
+        if (question == null) return;
+
+        if (question.type === "multiple_option") {
+          const responseId = z
+            .number({
+              coerce: true,
+            })
+            .parse(value);
 
           return {
             responseId,
             questionId,
             type: question.type,
-          }
+          };
         }
 
-        if (question.type === 'open') {
+        if (question.type === "open") {
           return {
             questionId,
             type: question.type,
             response: value,
-          }
+          };
         }
-      })
-  )
+      }),
+  );
 
   for (const r of allResponses) {
-    if (r == null) continue
+    if (r == null) continue;
 
-    const table = r.type === "multiple_option" ? "student_multiple_options" : "student_open_options"
-    const response = r.type === "multiple_option"
-      ? z.number({ coerce: true }).parse(r.responseId)
-      : z.string({ coerce: true }).parse(r.response)
+    const table =
+      r.type === "multiple_option"
+        ? "student_multiple_options"
+        : "student_open_options";
+    const response =
+      r.type === "multiple_option"
+        ? z.number({ coerce: true }).parse(r.responseId)
+        : z.string({ coerce: true }).parse(r.response);
 
     // @ts-expect-error - supabase types are wrong
     await supabase.from(table).insert({
       activity: actId,
       question: r.questionId,
       student: data.session?.user.id ?? "",
-      response
-    })
+      response,
+    });
   }
-}
+};
