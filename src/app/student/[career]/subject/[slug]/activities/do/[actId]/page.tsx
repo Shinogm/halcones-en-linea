@@ -17,17 +17,17 @@ export default async function DoActivity({ params }: Props) {
 	console.log(act);
 
 	return (
-		<Main className="max-w-5xl mx-auto">
-			<header className="flex justify-between mb-10">
-				<div>
-					<h1 className="text-4xl font-bold text-[#cdcccb] text-center">
+		<Main className="max-w-5xl mx-auto p-2 flex flex-col">
+			<header className="mb-10 ">
+			<time className="flex flex-col text-[#cdcccb]/70 w-full font-semibold text-right">
+					Finaliza el: {dateFormatter(new Date(act.deadline), "es-MX")}
+			</time>
+				<div className="flex justify-between mt-6">
+					<h1 className="text-4xl font-bold text-[#cdcccb] capitalize">
 						{act.name}
 					</h1>
 					{act.desc != null && <h3>{act.desc}</h3>}
 				</div>
-				<time className="text-[#cdcccb] text-center">
-					Para el: {dateFormatter(new Date(act.deadline), "es-MX")}
-				</time>
 			</header>
 
 			<form action={uploadQuestionsWorkActivity}>
@@ -39,13 +39,12 @@ export default async function DoActivity({ params }: Props) {
 					const inputType = hasTwoOrMoreCorrectAnswers ? "checkbox" : "radio";
 
 					return (
-						<div key={`question-${q.id}`}>
-							<h3 className="text-[#cdcccb]">
+						<div className="p-2 " key={`question-${q.id}`}>
+							<h3 className="text-[#cdcccb] text-xl font-semibold">
 								{i + 1}- {q.question}
 							</h3>
-
 							{q.type === "multiple_option" && (
-								<ul>
+								<ul className="">
 									{q.responses.map((r) => (
 										<li key={`response-${r.id}`}>
 											<label>
@@ -58,20 +57,20 @@ export default async function DoActivity({ params }: Props) {
 													value={r.id}
 												/>
 											</label>
-										</li>
+										</li> 
 									))}
 								</ul>
 							)}
 
 							{q.type === "open" && (
-								<textarea name={`response-question-${q.id}`} />
+								<textarea className="bg-[#34495e] border border-[#34495e] text-white text-md rounded-lg block w-full p-2.5 resize-none h-20" name={`response-question-${q.id}`} />
 							)}
 						</div>
 					);
 				})}
 
 				<footer>
-					<button type="submit">Enviar</button>
+					<button className="w-full bg-gray-500 text-white rounded-lg p-2.5 text-sm font-medium mt-4" type="submit">Enviar</button>
 				</footer>
 			</form>
 		</Main>
