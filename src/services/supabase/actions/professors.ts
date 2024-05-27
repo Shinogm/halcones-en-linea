@@ -373,7 +373,7 @@ export const getActivityInfoForProfessor = async (activityId: string, { careerId
         ...f,
         url: supabase.storage
           .from("activities")
-          .getPublicUrl(`${activityId}/${f.name}`).data.publicUrl,
+          .getPublicUrl(`${activityId}/${work?.id ?? ''}/${f.name}`).data.publicUrl,
       }));
 
       return {

@@ -3,6 +3,7 @@ import { getActivityInfoForProfessor } from "@/services/supabase/actions/profess
 import { v4 } from "@/utils/uuid";
 import { FilterInput } from "./components/filter-input";
 import { CalifyInput } from "./components/calify-input";
+import Link from "next/link";
 
 interface Props {
 	params: {
@@ -96,17 +97,21 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 							>
 								<picture className="flex-1">
 									{s.files[0]?.metadata?.mimetype?.startsWith("image") ? (
-										<img
-											className="aspect-square "
-											src={s.files[0]?.url}
-											alt={s.files[0]?.name}
-										/>
+										<Link href={s.files[0].url} target="_blank">
+											<img
+												className="aspect-square "
+												src={s.files[0].url}
+												alt={s.files[0].name}
+											/>
+										</Link>
 									) : (
-										<img
-											className="aspect-square "
-											src="/upload.svg"
-											alt="upload"
-										/>
+										<Link href={s.files[0]?.url ?? "#"} target="_blank">
+											<img
+												className="aspect-square "
+												src="/upload.svg"
+												alt="upload"
+											/>
+										</Link>
 									)}
 								</picture>
 
