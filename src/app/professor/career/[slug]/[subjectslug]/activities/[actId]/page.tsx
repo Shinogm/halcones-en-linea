@@ -2,6 +2,7 @@ import { Main, ShyScrollbar } from "@/components/utils";
 import { getActivityInfoForProfessor } from "@/services/supabase/actions/professors";
 import { v4 } from "@/utils/uuid";
 import { FilterInput } from "./components/filter-input";
+import { CalifyInput } from "./components/calify-input";
 
 interface Props {
 	params: {
@@ -75,9 +76,10 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 								</span>
 							</div>
 
-							<input
-								className="bg-itesus-tertiary rounded-sm px-2 py-1 w-[10%] text-itesus-primary"
-								defaultValue={s.calification ?? ""}
+							<CalifyInput
+								studentId={s.id}
+								actId={activity.id}
+								calification={s.calification ?? undefined}
 							/>
 						</li>
 					))}

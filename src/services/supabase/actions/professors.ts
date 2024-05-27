@@ -289,7 +289,7 @@ export const getActivityInfoForProfessor = async (activityId: string, { careerId
 
   const { data: activity, error: errorActivity } = await supabase
     .from("activities")
-    .select("name, desc, type")
+    .select("name, desc, type, id")
     .eq("id", activityId)
     .single();
 
@@ -390,4 +390,30 @@ export const getActivityInfoForProfessor = async (activityId: string, { careerId
     ...activity,
     students: studentsData,
   };
+}
+
+interface PCalifyStudent {
+  actId: number;
+  studentId: string;
+  calification: number;
+}
+
+export const califyStudent = async ({ actId, calification, studentId }: PCalifyStudent) => {
+  const supabase = await createClient();
+
+  const { data: calificationObject } = await supabase.from('student_activity_califications').select('id').eq('activity', actId).eq('student', studentId).single()
+
+  if (calificationObject == null) {
+    await supabase.from('student_activity_califications').insert({
+      student: studentId,
+      activity: actId,
+      cal: calification
+    })
+
+    return
+  }
+
+  await supabase.from('student_activity_califications').update({
+    cal: calification
+  }).eq('id', calificationObject.id)
 }
