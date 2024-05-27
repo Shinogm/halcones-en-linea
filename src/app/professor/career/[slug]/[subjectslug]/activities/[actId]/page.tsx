@@ -49,7 +49,7 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 			<header className="flex flex-col flex-1">
 				<div className="flex flex-col gap-3 justify-center items-center border-b border-b-itesus-tertiary pb-4">
 					<div className="bg-itesus-tertiary px-2 rounded-sm">
-						<h1 className="text-itesus-primary text-2xl font-bold">
+						<h1 className="text-itesus-primary text-2xl font-bold capitalize">
 							{activity.name}
 						</h1>
 					</div>
@@ -66,17 +66,17 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 			</header>
 
 			<div className="flex h-[75%] gap-5">
-				<ol className="overflow-y-auto space-y-1 w-[30%] px-5">
+				<ol className="overflow-y-auto space-y-1 w-[40%] px-5 ">
 					{filteredStudents.map((s) => (
 						<li key={v4()} className="flex gap-2">
-							<div className="bg-itesus-tertiary rounded-sm px-2 py-1 flex-1">
+							<div className="bg-itesus-tertiary px-2 py-1 flex-1 rounded-lg">
 								<span className="text-itesus-primary">
 									{s.first_name} {s.last_name}
 								</span>
 							</div>
 
 							<input
-								className="bg-itesus-tertiary rounded-sm px-2 py-1 w-[10%] text-itesus-primary"
+								className="bg-itesus-tertiary rounded-lg px-2 py-1 w-[15%] text-itesus-primary"
 								defaultValue={s.calification ?? ""}
 							/>
 						</li>
@@ -90,7 +90,7 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 						{filteredStudents.map((s) => (
 							<article
 								key={v4()}
-								className="flex h-28 w-full bg-itesus-tertiary rounded-md overflow-hidden"
+								className="flex h-28 w-full bg-itesus-tertiary text-gray-800/50 font-semibold rounded-xl overflow-hidden"
 							>
 								<picture className="flex-1">
 									{s.files[0]?.metadata?.mimetype?.startsWith("image") ? (
@@ -109,19 +109,18 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 								</picture>
 
 								<div className="w-[75%]">
-									<span>
+									<span className="flex mt-2">
 										{s.first_name} {s.last_name}
 									</span>
 
 									{/* file name */}
-									{s.files[0] != null && <span>{s.files[0]?.name}</span>}
+									{s.files[0] != null && <span className="flex flex-col mt-2 text-black">{s.files[0]?.name}</span>}
 
 									{/* file type */}
 									{s.files[0] != null && (
-										<span>{s.files[0].name.split(".").pop()}</span>
+										<span className="flex flex-col text-sm">{s.files[0].name.split(".").pop()}</span>
 									)}
-
-									<span>{s.workIsSended ? "Entregado" : "No entregado"}</span>
+									<span className="pl-56 ">{s.workIsSended ? "Entregado" : "No entregado"}</span>
 								</div>
 							</article>
 						))}

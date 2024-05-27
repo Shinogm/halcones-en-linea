@@ -20,7 +20,7 @@ export default async function CreateActivityPage ({ searchParams }: Props) {
     <DistroNav
       navbar={
         <nav
-          className='bg-nav-bg p-2 flex justify-between items-center'
+          className='bg-itesus-tertiary p-2 flex justify-between items-center'
         >
           <img
             className='aspect-[24/9] w-28'
