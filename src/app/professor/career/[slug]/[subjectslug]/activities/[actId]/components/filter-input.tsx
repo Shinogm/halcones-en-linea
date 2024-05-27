@@ -11,6 +11,7 @@ export const FilterInput = () => {
 
 	return (
 		<select
+			className="bg-transparent"
 			value={filter}
 			onChange={(e) => {
 				setFilter(e.target.value);
@@ -22,9 +23,24 @@ export const FilterInput = () => {
 				router.replace(`${pathname}?${newSearchParams.toString()}`);
 			}}
 		>
-			<option value={"all"}>Todos</option>
-			<option value={"send"}>Entregados</option>
-			<option value={"notSend"}>No entregados</option>
+			<option
+				className="bg-white hover:bg-gray-500 text-black hover:text-white"
+				value={"all"}
+			>
+				Todos
+			</option>
+			<option
+				className="bg-white hover:bg-gray-500 text-black hover:text-white"
+				value={"send"}
+			>
+				Entregados
+			</option>
+			<option
+				className="bg-white hover:bg-gray-500 text-black hover:text-white"
+				value={"notSend"}
+			>
+				No entregados
+			</option>
 		</select>
 	);
 };

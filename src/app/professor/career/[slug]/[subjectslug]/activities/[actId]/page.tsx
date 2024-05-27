@@ -8,6 +8,8 @@ import Link from "next/link";
 interface Props {
 	params: {
 		actId: string;
+		slug: string;
+		subjectslug: string;
 	};
 	searchParams: {
 		subjectId: string;
@@ -88,7 +90,7 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 				<section style={ShyScrollbar} className="overflow-y-auto flex-1">
 					<FilterInput />
 
-					<div className="grid grid-cols-2 place-items-center gap-x-11">
+					<div className="grid grid-cols-2 place-items-center gap-x-11 mt-1">
 						{filteredStudents.map((s) => (
 							<article
 								key={v4()}
@@ -114,20 +116,33 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 									)}
 								</picture>
 
-								<div className="w-[75%]">
-									<span className="flex mt-2">
-										{s.first_name} {s.last_name}
+								<Link
+									href={`/professor/career/${params.slug}/${params.subjectslug}/activities/${activity.id}/${s.id}`}
+									className="w-[75%] flex flex-col"
+								>
+									<div className="flex-1 flex flex-col">
+										<span className="mt-2 capitalize">
+											{s.first_name} {s.last_name}
+										</span>
+
+										{/* file name */}
+										{s.files[0] != null && (
+											<span className=" mt-2 text-black">
+												{s.files[0]?.name}
+											</span>
+										)}
+
+										{/* file type */}
+										{s.files[0] != null && (
+											<span className="text-sm">
+												{s.files[0].name.split(".").pop()}
+											</span>
+										)}
+									</div>
+									<span className="text-end mr-5 mb-2">
+										{s.workIsSended ? "Entregado" : "No entregado"}
 									</span>
-
-									{/* file name */}
-									{s.files[0] != null && <span className="flex flex-col mt-2 text-black">{s.files[0]?.name}</span>}
-
-									{/* file type */}
-									{s.files[0] != null && (
-										<span className="flex flex-col text-sm">{s.files[0].name.split(".").pop()}</span>
-									)}
-									<span className="pl-56 ">{s.workIsSended ? "Entregado" : "No entregado"}</span>
-								</div>
+								</Link>
 							</article>
 						))}
 					</div>
