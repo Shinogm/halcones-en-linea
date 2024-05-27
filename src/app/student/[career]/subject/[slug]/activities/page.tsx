@@ -57,6 +57,8 @@ export default async function ActivityPage({ searchParams }: Props) {
 		return false;
 	});
 
+	console.log(filteredActivities);
+
 	return (
 		<main className="flex flex-col gap-2">
 			{searchParams?.upload === "true" && (
@@ -84,6 +86,7 @@ export default async function ActivityPage({ searchParams }: Props) {
 							label: TYPES[a.type],
 							value: a.type,
 						}}
+						qualification={a.studentInfo?.calification ?? undefined}
 					/>
 				))}
 			</section>
