@@ -57,8 +57,6 @@ export default async function ActivityPage({ searchParams }: Props) {
 		return false;
 	});
 
-	console.log(filteredActivities);
-
 	return (
 		<main className="flex flex-col gap-2">
 			{searchParams?.upload === "true" && (

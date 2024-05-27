@@ -168,28 +168,50 @@ const getStudentInfo = async (
 
   if (studentId == null) return null;
 
-  const studentInfo =
+  const studentInfoMethod =
     activityType === "work"
-      ? (
-        await supabase
+      ? async () => {
+        const { data } = await supabase
           .from("student_work")
           .select("id, message, created_at")
           .eq("student", studentId)
           .eq("activity", activityId)
           .single()
-      ).data
-      : null;
 
-  const { data: files } = await supabase.storage
-    .from("activities")
-    .list(`${activityId.toString()}/${studentInfo?.id.toString() ?? ""}`);
+        return {
+          ...data,
+          qualification: 0,
+        }
+      }
+      : async () => {
+        const { data: multipleData } = await supabase.from('student_multiple_options').select('id').eq('activity', activityId).eq('student', studentId)
+
+        const { data: openData } = await supabase.from('student_open_options').select('id').eq('activity', activityId).eq('student', studentId)
+
+        const data = [
+          ...(multipleData ?? []),
+          ...(openData ?? [])
+        ]
+
+        if (data.length === 0) return null
+
+        return {
+          id: 0,
+          qualification: 0
+        }
+      };
+
+  const studentInfo = await studentInfoMethod();
+
+  const { data: files } = await supabase.storage.from("activities")
+    .list(`${activityId.toString()}/${studentInfo?.id?.toString() ?? ""}`);
 
   const formattedFiles = (files ?? []).map((f) => ({
     ...f,
     url: supabase.storage
       .from("activities")
       .getPublicUrl(
-        `${activityId.toString()}/${studentInfo?.id.toString() ?? ""}/${f.name
+        `${activityId.toString()}/${studentInfo?.id?.toString() ?? ""}/${f.name
         }`,
       ).data.publicUrl,
   }));
