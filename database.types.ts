@@ -497,6 +497,7 @@ export type Database = {
           cal: number
           created_at: string
           id: number
+          message: string
           student: string
         }
         Insert: {
@@ -504,6 +505,7 @@ export type Database = {
           cal: number
           created_at?: string
           id?: number
+          message: string
           student: string
         }
         Update: {
@@ -511,6 +513,7 @@ export type Database = {
           cal?: number
           created_at?: string
           id?: number
+          message?: string
           student?: string
         }
         Relationships: [

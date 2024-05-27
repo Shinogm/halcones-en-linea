@@ -3,6 +3,8 @@ import type { Tables } from "database.types";
 import { createClient } from "../actions";
 import { USER_TYPES } from "../functions/types";
 import type { GetMyAlumnsProps, StartClassProps } from "./professor.types";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const getProfessors = async () => {
   const supabase = await createClient();
@@ -392,13 +394,196 @@ export const getActivityInfoForProfessor = async (activityId: string, { careerId
   };
 }
 
+export const getActivityStudentInfoForProfessor = async (activityId: string, studentId: string) => {
+  const supabase = await createClient();
+
+  const { data: activity, error: activityError } = await supabase
+    .from("activities")
+    .select("name, desc, type, id")
+    .eq("id", activityId)
+    .single();
+
+  if (activityError != null) {
+    console.error("Error getting activity:", activityError);
+    throw new Error("Error getting activity");
+  }
+
+  const { data: studentData } = await supabase
+    .from("user_data")
+    .select("first_name, last_name")
+    .eq("owner", studentId)
+    .single();
+
+  const { data: calification } = await supabase
+    .from("student_activity_califications")
+    .select("cal, message")
+    .eq("activity", activityId)
+    .eq("student", studentId)
+    .single();
+
+  const IsWorkIsSended = activity.type === 'work'
+    ? async () => {
+      const { data: work } = await supabase
+        .from("student_work")
+        .select("id")
+        .eq("student", studentId)
+        .eq("activity", activityId)
+        .single()
+
+      return !!work?.id
+    }
+    : async () => {
+      const { data: openQuestions } = await supabase
+        .from("student_open_options")
+        .select("id")
+        .eq("student", studentId)
+        .eq("activity", activityId)
+
+      const { data: closedQuestions } = await supabase
+        .from("student_multiple_options")
+        .select("id")
+        .eq("student", studentId)
+        .eq("activity", activityId)
+
+      const data = [
+        ...(openQuestions ?? []),
+        ...(closedQuestions ?? []),
+      ]
+
+      return data.length > 0
+    }
+
+  const workIsSended = IsWorkIsSended()
+
+  const { data: work } = await supabase
+    .from("student_work")
+    .select("id")
+    .eq("student", studentId)
+    .eq("activity", activityId)
+    .single();
+
+  const { data: files } = await supabase.storage
+    .from("activities")
+    .list(`${activityId.toString()}/${work?.id ?? "aaaaaa"}`);
+
+  const formattedFiles = files?.map((f) => ({
+    ...f,
+    url: supabase.storage
+      .from("activities")
+      .getPublicUrl(`${activityId}/${work?.id ?? ''}/${f.name}`).data.publicUrl,
+  }));
+
+  const { data: questions } = await supabase
+    .from("questions")
+    .select("type, id")
+    .eq("activity", activityId)
+
+  const questionsData = await Promise.all(
+    (questions ?? []).map(async (q) => {
+      if (q.type === 'multiple_option') {
+        const { data: responses } = await supabase
+          .from("responses")
+          .select("id, option, is_correct")
+          .eq("question", q.id)
+
+        const responsesData = await Promise.all(
+          (responses ?? []).map(async (r) => {
+            const { data: response } = await supabase
+              .from("student_multiple_options")
+              .select("id")
+              .eq('response', r.id)
+              .eq('student', studentId)
+              .single()
+
+            if (r.is_correct === false && response == null) return {
+              ...r,
+              studentIsCorrect: null
+            }
+
+            return {
+              ...r,
+              studentIsCorrect: !!response?.id
+            }
+          }),
+        )
+
+        return {
+          ...q,
+          responses: responsesData
+        }
+      }
+
+      const { data: response } = await supabase
+        .from("student_open_options")
+        .select("response")
+        .eq('question', q.id)
+        .eq('student', studentId)
+        .single()
+
+      return {
+        ...q,
+        response: response?.response
+      }
+    }),
+  )
+
+
+  return {
+    id: studentId,
+    studentData: {
+      ...studentData,
+    },
+    calification: calification?.cal ?? null,
+    workIsSended: await workIsSended,
+    files: formattedFiles ?? [],
+    questions: questionsData,
+    activity: activity,
+    message: calification?.message ?? null
+  };
+}
+
+export const getMyReducedStudents = async ({ careerId, educationPlanId, groupId, semesterId, }: PGetActivityInfoForProfessor) => {
+  const supabase = await createClient();
+
+  const { data: students, error: errorStudents } = await supabase
+    .from("student_config")
+    .select("owner")
+    .eq("career", careerId)
+    .eq("education_plan", educationPlanId)
+    .eq("group", groupId)
+    .eq("semester", semesterId);
+
+  if (errorStudents != null) {
+    console.log("Error getting students:", errorStudents);
+    throw new Error("Error getting students");
+  }
+
+  const studentsData = await Promise.all(
+    (students ?? []).map(async (o) => {
+      const { data: studentData } = await supabase
+        .from("user_data")
+        .select("first_name, last_name")
+        .eq("owner", o.owner)
+        .single();
+
+      return {
+        id: o.owner,
+        ...studentData,
+      }
+    }),
+  );
+
+  return studentsData;
+}
+
 interface PCalifyStudent {
   actId: number;
   studentId: string;
   calification: number;
+  message: string;
 }
 
-export const califyStudent = async ({ actId, calification, studentId }: PCalifyStudent) => {
+export const califyStudent = async ({ actId, calification, studentId, message }: PCalifyStudent, redirectUri?: string) => {
   const supabase = await createClient();
 
   const { data: calificationObject } = await supabase.from('student_activity_califications').select('id').eq('activity', actId).eq('student', studentId).single()
@@ -407,7 +592,8 @@ export const califyStudent = async ({ actId, calification, studentId }: PCalifyS
     await supabase.from('student_activity_califications').insert({
       student: studentId,
       activity: actId,
-      cal: calification
+      cal: calification,
+      message: message
     })
 
     return
@@ -416,4 +602,9 @@ export const califyStudent = async ({ actId, calification, studentId }: PCalifyS
   await supabase.from('student_activity_califications').update({
     cal: calification
   }).eq('id', calificationObject.id)
+
+  if (redirectUri != null) {
+    revalidatePath(redirectUri)
+    redirect(redirectUri)
+  }
 }
