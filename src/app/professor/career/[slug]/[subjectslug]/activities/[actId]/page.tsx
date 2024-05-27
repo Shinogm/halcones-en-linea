@@ -2,6 +2,8 @@ import { Main, ShyScrollbar } from "@/components/utils";
 import { getActivityInfoForProfessor } from "@/services/supabase/actions/professors";
 import { v4 } from "@/utils/uuid";
 import { FilterInput } from "./components/filter-input";
+import { CalifyInput } from "./components/calify-input";
+import Link from "next/link";
 
 interface Props {
 	params: {
@@ -74,10 +76,10 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 									{s.first_name} {s.last_name}
 								</span>
 							</div>
-
-							<input
-								className="bg-itesus-tertiary rounded-lg px-2 py-1 w-[15%] text-itesus-primary"
-								defaultValue={s.calification ?? ""}
+							<CalifyInput
+								studentId={s.id}
+								actId={activity.id}
+								calification={s.calification ?? undefined}
 							/>
 						</li>
 					))}
@@ -94,17 +96,21 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 							>
 								<picture className="flex-1">
 									{s.files[0]?.metadata?.mimetype?.startsWith("image") ? (
-										<img
-											className="aspect-square "
-											src={s.files[0]?.url}
-											alt={s.files[0]?.name}
-										/>
+										<Link href={s.files[0].url} target="_blank">
+											<img
+												className="aspect-square "
+												src={s.files[0].url}
+												alt={s.files[0].name}
+											/>
+										</Link>
 									) : (
-										<img
-											className="aspect-square "
-											src="/upload.svg"
-											alt="upload"
-										/>
+										<Link href={s.files[0]?.url ?? "#"} target="_blank">
+											<img
+												className="aspect-square "
+												src="/upload.svg"
+												alt="upload"
+											/>
+										</Link>
 									)}
 								</picture>
 

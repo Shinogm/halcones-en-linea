@@ -203,6 +203,12 @@ const getStudentInfo = async (
 
   const studentInfo = await studentInfoMethod();
 
+  const { data: calification } = await supabase.from('student_activity_califications')
+    .select('cal')
+    .eq('activity', activityId)
+    .eq('student', studentId)
+    .single()
+
   const { data: files } = await supabase.storage.from("activities")
     .list(`${activityId.toString()}/${studentInfo?.id?.toString() ?? ""}`);
 
@@ -221,6 +227,7 @@ const getStudentInfo = async (
   return {
     ...studentInfo,
     files: formattedFiles,
+    calification: calification?.cal ?? null
   };
 };
 
