@@ -491,6 +491,45 @@ export type Database = {
           },
         ]
       }
+      student_activity_califications: {
+        Row: {
+          activity: number
+          cal: number
+          created_at: string
+          id: number
+          student: string
+        }
+        Insert: {
+          activity: number
+          cal: number
+          created_at?: string
+          id?: number
+          student: string
+        }
+        Update: {
+          activity?: number
+          cal?: number
+          created_at?: string
+          id?: number
+          student?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_activity_califications_activity_fkey"
+            columns: ["activity"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_activity_califications_student_fkey"
+            columns: ["student"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       student_config: {
         Row: {
           career: number

@@ -3,13 +3,16 @@ import { v4 } from "@/utils/uuid";
 import Link from "next/link";
 
 export const DisplayActivities = async ({ params, searchParams }) => {
-	const activities = await getMyActivities({
-		careerId: searchParams?.careerId,
-		subjectId: searchParams?.subjectId,
-		educationPlanId: searchParams?.educationPlanId,
-		groupId: searchParams?.groupId,
-		semesterId: searchParams?.semesterId,
-	});
+	const activities = await getMyActivities(
+		{
+			careerId: searchParams?.careerId,
+			subjectId: searchParams?.subjectId,
+			educationPlanId: searchParams?.educationPlanId,
+			groupId: searchParams?.groupId,
+			semesterId: searchParams?.semesterId,
+		},
+		true,
+	);
 
 	console.log(activities);
 
@@ -17,12 +20,13 @@ export const DisplayActivities = async ({ params, searchParams }) => {
 		<section className="grid grid-cols-2 grid-flow-row w-full gap-y-16">
 			{activities?.map((activity) => {
 				const newSearchParams = new URLSearchParams(searchParams);
+				newSearchParams.delete("filterIsSender");
 
 				return (
 					<Link
 						href={`/professor/career/${params?.slug}/${
 							params?.subjectslug ?? ""
-						}/activities/${activity.id}${newSearchParams.toString()}`}
+						}/activities/${activity.id}?${newSearchParams.toString()}`}
 						key={v4()}
 					>
 						<article className="gap-5 flex flex-row h-[10rem] w-[30rem]">
