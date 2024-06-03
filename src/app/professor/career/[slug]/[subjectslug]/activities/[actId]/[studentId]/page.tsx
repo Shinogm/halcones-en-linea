@@ -12,6 +12,7 @@ import {
 	IconSearch,
 } from "@tabler/icons-react";
 import { CalifyForm } from "./components/calify-form";
+import { SelectStudent } from "./components/select-student";
 
 interface Props {
 	params: {
@@ -57,79 +58,62 @@ export default async function StudentActivityPage({
 					</h1>
 				</div>
 
-				<section className="flex items-center gap-4">
-					<select className="bg-transparent text-xl">
-						{listOfStudents.map((s) => (
-							<option className="text-black bg-white" key={v4()} value={s.id}>
-								{s.first_name} {s.last_name}
-							</option>
-						))}
-					</select>
-
-					<div className="flex items-center gap-2">
-						<button type="button">
-							<IconCaretLeftFilled />
-						</button>
-
-						<button type="button">
-							<IconCaretRightFilled />
-						</button>
-					</div>
-				</section>
+				<SelectStudent students={listOfStudents} />
 			</header>
 
-			<section className="flex flex-col flex-1">
-				<span className="text-xl text-itesus-tertiary/70">
-					{selectedStudentActivity.files[0]?.name}
-				</span>
-				<div className="flex justify-end">
-					<span className="text-right text-xl border-b">
-						{ACTIVITYTYPES[selectedStudentActivity.activity.type]}
+			{selectedStudentActivity.workIsSended ? (
+				<section className="flex flex-col flex-1">
+					<span className="text-xl text-itesus-tertiary/70">
+						{selectedStudentActivity.files[0]?.name}
 					</span>
-				</div>
+					<div className="flex justify-end">
+						<span className="text-right text-xl border-b">
+							{ACTIVITYTYPES[selectedStudentActivity.activity.type]}
+						</span>
+					</div>
 
-				<div className="flex h-full">
-					<div className="flex-1 flex flex-col gap-2">
-						{selectedStudentActivity.activity.type === "work" ? (
-							<>
-								{selectedStudentActivity.files.length > 0 &&
-								selectedStudentActivity.files[0]?.url !== null ? (
-									<>
-										<picture className="aspect-video">
-											<img
-												src={selectedStudentActivity.files[0]?.url}
-												alt="imagen de actividad"
-											/>
-										</picture>
-										<div className="flex w-full justify-center items-center">
-											<button type="button">-</button>
+					<div className="flex h-full">
+						<div className="flex-1 flex flex-col gap-2">
+							{selectedStudentActivity.activity.type === "work" ? (
+								<>
+									{selectedStudentActivity.files.length > 0 &&
+									selectedStudentActivity.files[0]?.url !== null ? (
+										<>
+											<picture className="aspect-video">
+												<img
+													src={selectedStudentActivity.files[0]?.url}
+													alt="imagen de actividad"
+												/>
+											</picture>
+											<div className="flex w-full justify-center items-center">
+												<button type="button">-</button>
 
-											<IconSearch />
+												<IconSearch />
 
-											<button type="button">+</button>
+												<button type="button">+</button>
+											</div>
+										</>
+									) : (
+										<div className="flex justify-center items-center">
+											<IconFileText />
 										</div>
-									</>
-								) : (
-									<div className="flex justify-center items-center">
-										<IconFileText />
-									</div>
-								)}
-							</>
-						) : (
-							<>
-								{selectedStudentActivity.questions.map((q, i) => (
-									<div key={v4()} className="w-full">
-										<p className="text-left text-xl border-b">
-											<span>{i + 1}.</span> {q.question}
-										</p>
-										{q.type === "open" && (
-											<span className="p-2 text-lg">{q.response}</span>
-										)}
-										{q.type === "multiple_option" && (
-											<ol className="list-upper-alpha space-y-2 py-2 pl-5 text-lg">
-												{q?.responses?.map((r) => (
-													<li
-														className={`
+									)}
+								</>
+							) : (
+								<>
+									{selectedStudentActivity.questions.map((q, i) => (
+										<div key={v4()} className="w-full">
+											<p className="text-left text-xl border-b">
+												<span>{i + 1}.</span> {q.question}
+											</p>
+											{q.type === "open" && (
+												<span className="p-2 text-lg">{q.response}</span>
+											)}
+											{q.type === "multiple_option" && (
+												<ol className="list-upper-alpha space-y-2 py-2 pl-5 text-lg">
+													{q?.responses?.map((r) => (
+														<li
+															className={`
 														rounded-md px-1
 													${
 														r.studentIsCorrect === true
@@ -139,29 +123,36 @@ export default async function StudentActivityPage({
 																: ""
 													}
 													`}
-														key={v4()}
-													>
-														{r.option}
-													</li>
-												))}
-											</ol>
-										)}
-									</div>
-								))}
-							</>
-						)}
-					</div>
+															key={v4()}
+														>
+															{r.option}
+														</li>
+													))}
+												</ol>
+											)}
+										</div>
+									))}
+								</>
+							)}
+						</div>
 
-					<div className="h-full flex justify-center items-center">
-						<CalifyForm
-							actId={selectedStudentActivity.activity.id}
-							studentId={selectedStudentActivity.id}
-							calification={selectedStudentActivity.calification ?? undefined}
-							message={selectedStudentActivity.message ?? undefined}
-						/>
+						<div className="h-full flex justify-center items-center">
+							<CalifyForm
+								actId={selectedStudentActivity.activity.id}
+								studentId={selectedStudentActivity.id}
+								calification={selectedStudentActivity.calification ?? undefined}
+								message={selectedStudentActivity.message ?? undefined}
+							/>
+						</div>
 					</div>
-				</div>
-			</section>
+				</section>
+			) : (
+				<section className="flex justify-center items-center">
+					<span className="text-xl text-itesus-tertiary/70 text-center">
+						Sin datos de actividad, espera a que se envíe
+					</span>
+				</section>
+			)}
 		</Main>
 	);
 }
