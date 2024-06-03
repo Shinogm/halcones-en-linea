@@ -475,11 +475,27 @@ export const getActivityStudentInfoForProfessor = async (activityId: string, stu
 
   const { data: questions } = await supabase
     .from("questions")
-    .select("type, id")
+    .select("type, id, question")
     .eq("activity", activityId)
 
   const questionsData = await Promise.all(
     (questions ?? []).map(async (q) => {
+
+      if (q.type === 'open') {
+        const { data: response } = await supabase
+          .from("student_open_options")
+          .select("response")
+          .eq('question', q.id)
+          .eq('student', studentId)
+          .single()
+
+        return {
+          ...q,
+          responses: null,
+          response: response?.response
+        }
+      }
+
       if (q.type === 'multiple_option') {
         const { data: responses } = await supabase
           .from("responses")
@@ -509,20 +525,15 @@ export const getActivityStudentInfoForProfessor = async (activityId: string, stu
 
         return {
           ...q,
-          responses: responsesData
+          responses: responsesData,
+          response: null,
         }
       }
 
-      const { data: response } = await supabase
-        .from("student_open_options")
-        .select("response")
-        .eq('question', q.id)
-        .eq('student', studentId)
-        .single()
-
       return {
         ...q,
-        response: response?.response
+        response: null,
+        responses: null,
       }
     }),
   )
