@@ -127,6 +127,65 @@ export type Database = {
         }
         Relationships: []
       }
+      calendar: {
+        Row: {
+          career: number | null
+          coordinator: number
+          created_at: string
+          day: string
+          id: number
+          semester_subjects: number
+          teacher: number
+        }
+        Insert: {
+          career?: number | null
+          coordinator: number
+          created_at?: string
+          day: string
+          id?: number
+          semester_subjects: number
+          teacher: number
+        }
+        Update: {
+          career?: number | null
+          coordinator?: number
+          created_at?: string
+          day?: string
+          id?: number
+          semester_subjects?: number
+          teacher?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calendar_career_fkey"
+            columns: ["career"]
+            isOneToOne: false
+            referencedRelation: "careers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calendar_coordinator_fkey"
+            columns: ["coordinator"]
+            isOneToOne: false
+            referencedRelation: "user_data"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calendar_semester_subjects_fkey"
+            columns: ["semester_subjects"]
+            isOneToOne: false
+            referencedRelation: "semester_subjects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calendar_teacher_fkey"
+            columns: ["teacher"]
+            isOneToOne: false
+            referencedRelation: "user_data"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campus: {
         Row: {
           campus_key: string
@@ -242,6 +301,75 @@ export type Database = {
             columns: ["career"]
             isOneToOne: false
             referencedRelation: "careers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      forum_messages: {
+        Row: {
+          career: number
+          created_at: string
+          education_plan: number
+          group: number
+          id: number
+          message: string
+          owner: string
+          subject: number
+        }
+        Insert: {
+          career: number
+          created_at?: string
+          education_plan: number
+          group: number
+          id?: number
+          message: string
+          owner: string
+          subject: number
+        }
+        Update: {
+          career?: number
+          created_at?: string
+          education_plan?: number
+          group?: number
+          id?: number
+          message?: string
+          owner?: string
+          subject?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_messages_career_fkey"
+            columns: ["career"]
+            isOneToOne: false
+            referencedRelation: "careers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_messages_education_plan_fkey"
+            columns: ["education_plan"]
+            isOneToOne: false
+            referencedRelation: "education_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_messages_group_fkey"
+            columns: ["group"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_messages_owner_fkey"
+            columns: ["owner"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_messages_subject_fkey"
+            columns: ["subject"]
+            isOneToOne: false
+            referencedRelation: "subjects"
             referencedColumns: ["id"]
           },
         ]
