@@ -1,4 +1,4 @@
-import { Main } from "@/components/utils";
+import { Main, ShyScrollbar } from "@/components/utils";
 import {
 	getActivityStudentInfoForProfessor,
 	getMyReducedStudents,
@@ -62,7 +62,10 @@ export default async function StudentActivityPage({
 			</header>
 
 			{selectedStudentActivity.workIsSended ? (
-				<section className="flex flex-col flex-1">
+				<section
+					className="flex flex-col flex-1 overflow-y-auto pr-2"
+					style={ShyScrollbar}
+				>
 					<span className="text-xl text-itesus-tertiary/70">
 						{selectedStudentActivity.files[0]?.name}
 					</span>
@@ -72,7 +75,7 @@ export default async function StudentActivityPage({
 						</span>
 					</div>
 
-					<div className="flex h-full">
+					<div className="flex h-full gap-2">
 						<div className="flex-1 flex flex-col gap-2">
 							{selectedStudentActivity.activity.type === "work" ? (
 								<>
@@ -136,7 +139,7 @@ export default async function StudentActivityPage({
 							)}
 						</div>
 
-						<div className="h-full flex justify-center items-center">
+						<div className="h-full flex justify-center items-center sticky top-0">
 							<CalifyForm
 								actId={selectedStudentActivity.activity.id}
 								studentId={selectedStudentActivity.id}
