@@ -7,12 +7,12 @@ export default async function Activities({ params, searchParams }) {
 
 	return (
 		<Main className="flex flex-col gap-5 mx-auto max-w-7xl">
-			<header className="flex flex-row gap-2">
-				<div className="bg-white text-[#21264a] rounded-md px-2">
+			<header className="flex gap-2 items-center">
+				<div className="bg-white text-[#21264a] rounded-md px-2 flex items-center text-xl">
 					Mis actividades
 				</div>
 				<Link href={`/professor/create-activity?${newSearchParams.toString()}`}>
-					<div className="text-white bg-[#1264ac] rounded-full justify-center items-center flex w-7 h-7">
+					<div className="text-white bg-[#1264ac] rounded-full justify-center items-center flex  size-7">
 						+
 					</div>
 				</Link>

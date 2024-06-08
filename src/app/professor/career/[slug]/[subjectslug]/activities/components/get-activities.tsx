@@ -14,7 +14,12 @@ export const DisplayActivities = async ({ params, searchParams }) => {
 		true,
 	);
 
-	console.log(activities);
+	if (activities.length === 0)
+		return (
+			<div className="flex flex-col items-center justify-center">
+				<p className="text-white text-center">No hay actividades</p>
+			</div>
+		);
 
 	return (
 		<section className="grid grid-cols-2 grid-flow-row w-full gap-y-16">
