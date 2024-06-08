@@ -430,7 +430,7 @@ export const uploadWorkActivity = async (
   }
 };
 
-export const uploadQuestionsWorkActivity = async (formdata: FormData) => {
+export const uploadQuestionsWorkActivity = async (formdata: FormData, revalidatePathname?: string) => {
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getSession();
@@ -505,5 +505,9 @@ export const uploadQuestionsWorkActivity = async (formdata: FormData) => {
       student: data.session?.user.id ?? "",
       response,
     });
+  }
+
+  if (revalidatePathname != null) {
+    revalidatePath(revalidatePathname);
   }
 };
