@@ -35,7 +35,7 @@ type Props = {
 
 export const MessageBox = ({ messages }: Props) => {
 	return (
-		<section className="flex flex-col  h-full items-center px-10 overflow-y-auto">
+		<section className="flex flex-col-reverse h-full items-center px-10 overflow-y-auto">
 			{messages.map((m) => {
 				return m.isMyMessage ? (
 					<MyMessage key={v4()} msg={m.message} />

@@ -1,13 +1,26 @@
 import { SendForm } from "./components/send-form";
 import { MessageBox } from "./components/message-box";
-import { listenMessages } from "@/services/supabase/actions/forums";
+import {
+	getMessages,
+	listenMessages,
+} from "@/services/supabase/actions/forums";
 
 export default async function Forums({ params, searchParams }) {
-	const messages = await listenMessages({
+	const messages = await getMessages({
 		careerId: Number(searchParams.careerId),
 		educationPlanId: Number(searchParams.educationPlanId),
 		groupId: Number(searchParams.groupId),
 		subjectId: Number(searchParams.subjectId),
+	});
+
+	listenMessages({
+		careerId: Number(searchParams.careerId),
+		educationPlanId: Number(searchParams.educationPlanId),
+		groupId: Number(searchParams.groupId),
+		subjectId: Number(searchParams.subjectId),
+	}).then((message) => {
+		// @ts-expect-error - supabase types are wrong
+		messages.push(message);
 	});
 
 	return (

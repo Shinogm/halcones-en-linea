@@ -1,6 +1,8 @@
 'use server'
 
+import { Source_Serif_4 } from "next/font/google"
 import { createClient } from "../actions"
+import { v4 } from "@/utils/uuid"
 
 
 type PSendMessage = {
@@ -29,11 +31,29 @@ export const sendMessage = async ({ careerId, educationPlanId, groupId, subjectI
         message: message,
         owner: data.session?.user.id ?? ''
     })
+
+    const { data: userData } = await supabase
+        .from('user_data')
+        .select('first_name, last_name')
+        .eq('owner', data.session?.user.id ?? '')
+        .single()
+
+    await supabase.channel(`forum-messages-${careerId}-${educationPlanId}-${groupId}-${subjectId}`).send({
+        event: 'message',
+        payload: {
+            id: v4(),
+            message,
+            senderName: `${userData?.first_name} ${userData?.last_name}`,
+            isMyMessage: true,
+            owner: data.session?.user.id ?? ''
+        },
+        type: 'broadcast'
+    })
 }
 
 
 type PListMessages = Omit<PSendMessage, 'message'>
-export const listenMessages = async ({ careerId, educationPlanId, groupId, subjectId }: PListMessages) => {
+export const getMessages = async ({ careerId, educationPlanId, groupId, subjectId }: PListMessages) => {
     const supabase = await createClient()
 
     const { data, error } = await supabase.auth.getSession()
@@ -69,4 +89,17 @@ export const listenMessages = async ({ careerId, educationPlanId, groupId, subje
     )
 
     return messageWithSender
+}
+
+export const listenMessages = async ({ careerId, educationPlanId, groupId, subjectId }: PListMessages) => {
+    const supabase = await createClient()
+
+    return new Promise((resolve) => {
+        supabase.channel(`forum-messages-${careerId}-${educationPlanId}-${groupId}-${subjectId}`).on('broadcast', {
+            event: 'message'
+        }, (payload) => {
+            console.log('payload', payload)
+            resolve(payload)
+        })
+    })
 }
