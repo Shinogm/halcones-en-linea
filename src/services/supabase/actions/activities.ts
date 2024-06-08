@@ -178,6 +178,8 @@ const getStudentInfo = async (
           .eq("activity", activityId)
           .single()
 
+        if (data == null) return null;
+
         return {
           ...data,
           qualification: 0,

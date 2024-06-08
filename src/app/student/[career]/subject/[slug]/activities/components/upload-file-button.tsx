@@ -1,30 +1,31 @@
-'use client'
+"use client";
 
-import { IconFileUpload } from '@tabler/icons-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { IconFileUpload } from "@tabler/icons-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
-  activityId: number
+	activityId: number;
 }
 
 export const UploadFileButton = ({ activityId }: Props) => {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
+	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
 
-  return (
-    <button
-      onClick={() => {
-        const newSearchParams = new URLSearchParams(searchParams)
+	return (
+		<button
+			type="button"
+			onClick={() => {
+				const newSearchParams = new URLSearchParams(searchParams);
 
-        newSearchParams.set('upload', 'true')
-        newSearchParams.set('activityId', activityId.toString())
+				newSearchParams.set("upload", "true");
+				newSearchParams.set("activityId", activityId.toString());
 
-        router.replace(`${pathname}?${newSearchParams.toString()}`)
-      }}
-      className='bg-[#808080] px-3 py-1 flex items-center justify-center rounded-r-lg'
-    >
-      <IconFileUpload size={24} />
-    </button>
-  )
-}
+				router.replace(`${pathname}?${newSearchParams.toString()}`);
+			}}
+			className="bg-[#808080] px-3 py-1 flex items-center justify-center rounded-r-lg"
+		>
+			<IconFileUpload size={24} />
+		</button>
+	);
+};

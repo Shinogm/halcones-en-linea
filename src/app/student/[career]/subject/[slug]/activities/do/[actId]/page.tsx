@@ -19,9 +19,9 @@ export default async function DoActivity({ params }: Props) {
 	return (
 		<Main className="max-w-5xl mx-auto p-2 flex flex-col">
 			<header className="mb-10 ">
-			<time className="flex flex-col text-[#cdcccb]/70 w-full font-semibold text-right">
+				<time className="flex flex-col text-[#cdcccb]/70 w-full font-semibold text-right">
 					Finaliza el: {dateFormatter(new Date(act.deadline), "es-MX")}
-			</time>
+				</time>
 				<div className="flex justify-between mt-6">
 					<h1 className="text-4xl font-bold text-[#cdcccb] capitalize">
 						{act.name}
@@ -47,8 +47,7 @@ export default async function DoActivity({ params }: Props) {
 								<ul className="">
 									{q.responses.map((r) => (
 										<li key={`response-${r.id}`}>
-											<label>
-												{r.option}
+											<label className="flex items-center gap-2">
 												<input
 													type={inputType}
 													name={`response-question-${q.id}${
@@ -56,21 +55,30 @@ export default async function DoActivity({ params }: Props) {
 													}`}
 													value={r.id}
 												/>
+												{r.option}
 											</label>
-										</li> 
+										</li>
 									))}
 								</ul>
 							)}
 
 							{q.type === "open" && (
-								<textarea className="bg-[#34495e] border border-[#34495e] text-white text-md rounded-lg block w-full p-2.5 resize-none h-20" name={`response-question-${q.id}`} />
+								<textarea
+									className="bg-[#34495e] border border-[#34495e] text-white text-md rounded-lg block w-full p-2.5 resize-none h-20"
+									name={`response-question-${q.id}`}
+								/>
 							)}
 						</div>
 					);
 				})}
 
 				<footer>
-					<button className="w-full bg-gray-500 text-white rounded-lg p-2.5 text-sm font-medium mt-4" type="submit">Enviar</button>
+					<button
+						className="w-full bg-gray-500 text-white rounded-lg p-2.5 text-sm font-medium mt-4"
+						type="submit"
+					>
+						Enviar
+					</button>
 				</footer>
 			</form>
 		</Main>
