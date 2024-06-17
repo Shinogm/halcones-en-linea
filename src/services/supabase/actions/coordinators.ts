@@ -26,3 +26,28 @@ export const getCoordinatorCareers = async (id: string) => {
 
   return careers
 }
+
+export const createCalendar = async (day: string, hour: string, coordinator: number, professor: string, career: number, subject: string, group: string) => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('calendar')
+    .insert(
+      {
+        hour,
+        day,
+        coordinator,
+        professor,
+        career,
+        subject,
+        group
+      }
+    )
+
+  if (error != null) {
+    console.log('Error creating calendar:', error)
+    throw new Error('Error creating calendar')
+  }
+
+  return data
+}
